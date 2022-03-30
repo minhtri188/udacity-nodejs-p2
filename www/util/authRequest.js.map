@@ -1,0 +1,1 @@
+{"version":3,"file":"authRequest.js","sourceRoot":"","sources":["../../src/util/authRequest.ts"],"names":[],"mappings":";;;;;;;;;;;;AAEA,SAAsB,aAAa,CAAC,GAAQ;;QACxC,MAAM,KAAK,GAAG,GAAG,CAAC,MAAM,CAAC,YAAY,CAAC,CAAC;QACvC,IAAG,KAAK,IAAI,QAAQ,EAAC;YACjB,OAAO,IAAI,CAAA;SACd;QACD,OAAO,KAAK,CAAC;IACjB,CAAC;CAAA;AAND,sCAMC"}
