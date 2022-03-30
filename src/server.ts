@@ -37,10 +37,10 @@ import { stringify } from 'querystring';
       }
       const imgUrl = req.query.image_url.toString();
       if (imgUrl) {
-        return filterImageFromURL(imgUrl).then((data) => {
-          res.sendFile(data);
-          // get all files in the path '/tmp' before we will store new image
-          return getFilesFromPath().then((files: Array<string>) => {  
+        // get all files in the path '/tmp' before we will store new image
+        return getFilesFromPath().then((files: Array<string>) => {  
+          return filterImageFromURL(imgUrl).then((data) => {
+            res.sendFile(data);
             if(files && files.length > 0){
               //delete all files in '/tmp' except the new image
               deleteLocalFiles(files);
