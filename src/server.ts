@@ -1,8 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { filterImageFromURL, deleteLocalFiles, getFilesFromPath } from './util/util';
+import {filterImageFromURL, deleteLocalFiles, getFilesFromPath} from './util/util';
 import { validateToken } from './util/authRequest';
-import { stringify } from 'querystring';
 
 (async () => {
 
@@ -11,7 +10,7 @@ import { stringify } from 'querystring';
 
   // Set the network port
   const port = process.env.PORT || 8082;
-
+  
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
 
@@ -31,47 +30,48 @@ import { stringify } from 'querystring';
 
   /**************************************************************************** */
   app.get("/filteredimage", async (req, res) => {
-    return validateToken(req).then((validate: Boolean) => {
-      if (!validate) {
-        return res.status(401).send('Access Denied')
-      }
-      const imgUrl = req.query.image_url.toString();
-      if (imgUrl) {
-        // get all files in the path '/tmp' before we will store new image
-        return getFilesFromPath().then((files: Array<string>) => {  
-          return filterImageFromURL(imgUrl).then((data) => {
-            res.sendFile(data);
-            if(files && files.length > 0){
-              //delete all files in '/tmp' except the new image
-              deleteLocalFiles(files);
-            }
-            return;
-          }).catch((err) => {
-            throw err;
-          });
-        });
-      } else {
-        return res.send("try the other img_url, we can't get your link.")
-      }
-    }).catch((error) => {
-      console.log(error);
-      return res.status(400).send(error)
-    })
-  });
+    const validate = await validateToken(req);//.then((validate: Boolean) => {
+    if (!validate) {
+      return res.status(401).send('Access Denied')
+    }
+    const imgUrl = req.query.image_url.toString();
+    if (imgUrl) {
+      // get all files in the path '/tmp' before we will store new image
+      return getFilesFromPath().then((files: Array<string>) => {
+        return filterImageFromURL(imgUrl).then((data) => {
+          res.status(200).sendFile(data);
 
+          if (files && files.length > 0) {
+            //delete all files in '/tmp' except the new image
+            deleteLocalFiles(files);
+          }
+          return;
+        }).catch((err) => {
+          console.log(err);
+          return res.status(400).send("try the other img_url, we can't get your link.")
+        });
+      });
+    } else {
+      return res.status(400).send("try the other img_url, we can't get your link.")
+    }
+    // }).catch((error) => {
+    //   console.log(error);
+    //   return res.status(400).send(error)
+    // })
+  });
 
   //! END @TODO1
-
+  
   // Root Endpoint
   // Displays a simple message to the user
-  app.get("/", async (req, res) => {
+  app.get( "/", async ( req, res ) => {
     res.send("try GET /filteredimage?image_url={{}}")
-  });
-
+  } );
+  
 
   // Start the Server
-  app.listen(port, () => {
-    console.log(`server running http://localhost:${port}`);
-    console.log(`press CTRL+C to stop server`);
-  });
+  app.listen( port, () => {
+      console.log( `server running http://localhost:${ port }` );
+      console.log( `press CTRL+C to stop server` );
+  } );
 })();
