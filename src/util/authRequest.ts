@@ -8,7 +8,7 @@ export async function validateToken(req: any): Promise<Boolean> {
             }            
             resolve(result);
         } catch(error){
-            reject(error);
+            reject(false);
         }
 
     })
