@@ -11,4 +11,11 @@ Add key "auth-token" and value "123456" to header pass request
 
 OR
 
-You can use file "udacity-project2.postman_collection.json" to import to postman:
+You can use file "udacity-project2.postman_collection.json" to import to postman
+
+
+How to run on local:
+ - using "npm run dev" to start server on local with url "localhost:8082"
+
+How to build to deploy server:
+ - using "npm run build" to build code

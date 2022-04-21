@@ -1,8 +1,10 @@
-export async function validateToken(req: any): Promise<Boolean> {
+import {Request} from 'express';
+
+export async function validateToken(req: Request): Promise<Boolean> {
     return new Promise(async (resolve, reject) => {
         try{
-            let result = false;
-            const token = req.header('auth-token');
+            let result: boolean = false;
+            const token: string = req.header('auth-token') as string;
             if(token == '123456'){
                 result = true;
             }            

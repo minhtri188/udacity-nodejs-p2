@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import {Request, Response} from 'express';
 import {filterImageFromURL, deleteLocalFiles, getFilesFromPath} from './util/util';
 import { validateToken } from './util/authRequest';
 
@@ -29,12 +30,12 @@ import { validateToken } from './util/authRequest';
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   /**************************************************************************** */
-  app.get("/filteredimage", async (req, res) => {
-    const validate = await validateToken(req);//.then((validate: Boolean) => {
+  app.get("/filteredimage", async (req: Request, res: Response) => {
+    const validate: boolean = await validateToken(req) as boolean;
     if (!validate) {
       return res.status(401).send('Access Denied')
     }
-    const imgUrl = req.query.image_url.toString();
+    const imgUrl: string = req.query.image_url.toString();
     if (imgUrl) {
       // get all files in the path '/tmp' before we will store new image
       return getFilesFromPath().then((files: Array<string>) => {
